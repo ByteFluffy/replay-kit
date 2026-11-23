@@ -1,10 +1,29 @@
 {
   "name": "@replay-kit/core",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Zero-dependency replay engine: protocol, time warp, controller, recorder.",
   "type": "module",
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ByteFluffy/replay-kit.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/ByteFluffy/replay-kit#readme",
+  "bugs": {
+    "url": "https://github.com/ByteFluffy/replay-kit/issues"
+  },
+  "keywords": [
+    "replay",
+    "session-replay",
+    "agent",
+    "crdt",
+    "time-warp",
+    "jsonl"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,7 +31,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
