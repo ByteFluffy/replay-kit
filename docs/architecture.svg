@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="title desc">
+  <title id="title">replay-kit System Architecture (Protocol v1)</title>
+  <desc id="desc">Framework-agnostic, zero-dependency record and replay architecture showing Host Recording, Segmented JSONL Wire Protocol, ReplayController, TimeWarp, and IReplayChannel Adapters.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#1E293B" opacity="0.7"/>
+    </pattern>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowEmerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34D399"/>
+    </marker>
+    <marker id="arrowSlate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <style>
+    .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+
+  <!-- Canvas Container -->
+  <rect x="0" y="0" width="1200" height="640" rx="16" fill="url(#bgGrad)" stroke="#1E293B" stroke-width="2"/>
+  <rect x="0" y="0" width="1200" height="640" rx="16" fill="url(#dotGrid)"/>
+
+  <!-- Header -->
+  <text x="36" y="42" class="font-sans" font-size="22" font-weight="700" fill="#F8FAFC">replay-kit · System Architecture (Protocol v1)</text>
+  <text x="36" y="64" class="font-sans" font-size="13" fill="#94A3B8">Framework-agnostic, zero-dependency record &amp; replay engine for workspaces, AI agents, and structured telemetry</text>
+  <rect x="1032" y="24" width="136" height="28" rx="14" fill="#0F2942" stroke="#38BDF8" stroke-width="1"/>
+  <text x="1100" y="42" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#7DD3FC">@replay-kit/core</text>
+
+  <!-- ===================================================================== -->
+  <!-- ZONE 1: HOST RECORDING SIDE (x=28, w=340)                              -->
+  <!-- ===================================================================== -->
+  <rect x="28" y="88" width="340" height="464" rx="12" fill="#0F172A" fill-opacity="0.88" stroke="#1E3A5F" stroke-width="1.5"/>
+  <rect x="44" y="102" width="10" height="10" rx="2" fill="#38BDF8"/>
+  <text x="62" y="112" class="font-sans" font-size="13" font-weight="700" letter-spacing="0.4" fill="#38BDF8">1. HOST RECORDING SIDE</text>
+
+  <!-- Host Runtime Box -->
+  <rect x="46" y="128" width="304" height="106" rx="10" fill="#132238" stroke="#2563EB" stroke-opacity="0.55" stroke-width="1"/>
+  <text x="60" y="149" class="font-sans" font-size="13" font-weight="600" fill="#E2E8F0">Host Runtime Channels</text>
+
+  <rect x="60" y="160" width="88" height="58" rx="6" fill="#0B1426" stroke="#38BDF8" stroke-opacity="0.4"/>
+  <text x="104" y="182" text-anchor="middle" class="font-mono" font-size="11" font-weight="600" fill="#7DD3FC">agent</text>
+  <text x="104" y="198" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">delta / tool</text>
+  <text x="104" y="211" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">corr=tc_1</text>
+
+  <rect x="154" y="160" width="94" height="58" rx="6" fill="#0B1426" stroke="#38BDF8" stroke-opacity="0.4"/>
+  <text x="201" y="182" text-anchor="middle" class="font-mono" font-size="11" font-weight="600" fill="#7DD3FC">workspace</text>
+  <text x="201" y="198" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">CRDT / doc</text>
+  <text x="201" y="211" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">step: true</text>
+
+  <rect x="254" y="160" width="84" height="58" rx="6" fill="#0B1426" stroke="#38BDF8" stroke-opacity="0.4"/>
+  <text x="296" y="182" text-anchor="middle" class="font-mono" font-size="11" font-weight="600" fill="#7DD3FC">diag</text>
+  <text x="296" y="198" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">metrics</text>
+  <text x="296" y="211" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">sev: warn|err</text>
+
+  <!-- Arrow: Host -> Recorder -->
+  <line x1="198" y1="234" x2="198" y2="264" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrowBlue)"/>
+  <text x="208" y="253" class="font-mono" font-size="10" fill="#7DD3FC">mutate-then-record()</text>
+
+  <!-- ReplayRecorder Box -->
+  <rect x="46" y="268" width="304" height="132" rx="10" fill="#132238" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="60" y="290" class="font-mono" font-size="14" font-weight="700" fill="#F8FAFC">ReplayRecorder</text>
+  <text x="290" y="290" text-anchor="end" class="font-mono" font-size="10" fill="#38BDF8">recorder.ts</text>
+
+  <rect x="60" y="302" width="134" height="38" rx="6" fill="#0B1426" stroke="#1E293B"/>
+  <text x="127" y="319" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Monotonic Clock</text>
+  <text x="127" y="333" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">t[i] &gt;= t[i-1]</text>
+
+  <rect x="202" y="302" width="134" height="38" rx="6" fill="#0B1426" stroke="#1E293B"/>
+  <text x="269" y="319" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Segment Rotation</text>
+  <text x="269" y="333" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">maxEvents/Ms/Bytes</text>
+
+  <rect x="60" y="348" width="134" height="38" rx="6" fill="#0B1426" stroke="#1E293B"/>
+  <text x="127" y="365" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Budget Guard</text>
+  <text x="127" y="379" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">maxSessionBytes</text>
+
+  <rect x="202" y="348" width="134" height="38" rx="6" fill="#0B1426" stroke="#1E293B"/>
+  <text x="269" y="365" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Open Flush &amp; Retry</text>
+  <text x="269" y="379" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">includeOpen: true</text>
+
+  <!-- Arrow: Recorder -> Sink -->
+  <line x1="198" y1="400" x2="198" y2="432" stroke="#38BDF8" stroke-width="1.6" marker-end="url(#arrowBlue)"/>
+  <text x="208" y="421" class="font-mono" font-size="10" fill="#7DD3FC">capture() baseline + write()</text>
+
+  <!-- ISegmentSink Box -->
+  <rect x="46" y="436" width="304" height="96" rx="10" fill="#132238" stroke="#38BDF8" stroke-opacity="0.65" stroke-width="1"/>
+  <text x="60" y="458" class="font-mono" font-size="13" font-weight="700" fill="#F8FAFC">ISegmentSink</text>
+  <text x="336" y="458" text-anchor="end" class="font-sans" font-size="11" fill="#94A3B8">Host I/O</text>
+  <text x="60" y="480" class="font-mono" font-size="11" fill="#CBD5E1">encodeJsonl(segment) + gzip</text>
+  <text x="60" y="499" class="font-sans" font-size="11" fill="#94A3B8">• Idempotent upload per (id, index)</text>
+  <text x="60" y="517" class="font-sans" font-size="11" fill="#94A3B8">• sealed=false overwritable; sealed=true final</text>
+
+  <!-- ===================================================================== -->
+  <!-- CROSS-ZONE ARROW 1 -> 2                                               -->
+  <!-- ===================================================================== -->
+  <path d="M 350 484 L 382 484 L 382 212 L 420 212" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+  <!-- ===================================================================== -->
+  <!-- ZONE 2: WIRE PROTOCOL & STORAGE (x=408, w=340)                        -->
+  <!-- ===================================================================== -->
+  <rect x="408" y="88" width="340" height="464" rx="12" fill="#0F172A" fill-opacity="0.88" stroke="#5B4118" stroke-width="1.5"/>
+  <rect x="424" y="102" width="10" height="10" rx="2" fill="#F59E0B"/>
+  <text x="442" y="112" class="font-sans" font-size="13" font-weight="700" letter-spacing="0.4" fill="#F59E0B">2. WIRE PROTOCOL &amp; JOINING</text>
+
+  <!-- Segmented JSONL Stack -->
+  <rect x="426" y="128" width="304" height="196" rx="10" fill="#1F1912" stroke="#F59E0B" stroke-opacity="0.65" stroke-width="1.2"/>
+  <text x="440" y="150" class="font-sans" font-size="13" font-weight="700" fill="#FDE68A">Segmented JSONL (v1)</text>
+  <text x="716" y="150" text-anchor="end" class="font-mono" font-size="10" fill="#F59E0B">jsonl.ts</text>
+
+  <!-- Segment 0 -->
+  <rect x="440" y="164" width="276" height="44" rx="6" fill="#14100B" stroke="#F59E0B" stroke-opacity="0.5"/>
+  <text x="452" y="182" class="font-mono" font-size="11" font-weight="600" fill="#FBBF24">Segment 0</text>
+  <text x="704" y="182" text-anchor="end" class="font-mono" font-size="10" fill="#94A3B8">baseSeq: 0</text>
+  <text x="452" y="198" class="font-mono" font-size="10" fill="#CBD5E1">header(initialState=T0) + events[0..499]</text>
+
+  <!-- Segment 1 -->
+  <rect x="440" y="216" width="276" height="44" rx="6" fill="#14100B" stroke="#F59E0B" stroke-opacity="0.5"/>
+  <text x="452" y="234" class="font-mono" font-size="11" font-weight="600" fill="#FBBF24">Segment 1</text>
+  <text x="704" y="234" text-anchor="end" class="font-mono" font-size="10" fill="#94A3B8">baseSeq: 500</text>
+  <text x="452" y="250" class="font-mono" font-size="10" fill="#CBD5E1">header(initialState=KF@499) + events[500..999]</text>
+
+  <!-- Segment N -->
+  <rect x="440" y="268" width="276" height="44" rx="6" fill="#14100B" stroke="#F59E0B" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+  <text x="452" y="286" class="font-mono" font-size="11" font-weight="600" fill="#FBBF24">Segment N (tail)</text>
+  <text x="704" y="286" text-anchor="end" class="font-mono" font-size="10" fill="#94A3B8">tolerateTruncatedTail</text>
+  <text x="452" y="302" class="font-mono" font-size="10" fill="#CBD5E1">header(initialState=KF) + events[1000..end]</text>
+
+  <!-- Arrow: JSONL -> Join -->
+  <line x1="578" y1="324" x2="578" y2="358" stroke="#F59E0B" stroke-width="1.6" marker-end="url(#arrowAmber)"/>
+  <text x="588" y="346" class="font-mono" font-size="10" fill="#FBBF24">decodeJsonl() + joinSegments()</text>
+
+  <!-- Unified ReplayBundle -->
+  <rect x="426" y="362" width="304" height="170" rx="10" fill="#1F1912" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="440" y="384" class="font-mono" font-size="13" font-weight="700" fill="#F8FAFC">Unified ReplayBundle</text>
+  <text x="716" y="384" text-anchor="end" class="font-mono" font-size="10" fill="#F59E0B">join.ts / validate.ts</text>
+
+  <rect x="440" y="396" width="276" height="36" rx="6" fill="#14100B" stroke="#334155"/>
+  <text x="452" y="418" class="font-mono" font-size="11" fill="#E2E8F0">channels: { ch: { format: "name@1" } }</text>
+
+  <rect x="440" y="438" width="276" height="40" rx="6" fill="#14100B" stroke="#334155"/>
+  <text x="452" y="456" class="font-mono" font-size="11" fill="#FDE68A">keyframes: [{ seq: 499, state }, ...]</text>
+  <text x="452" y="471" class="font-sans" font-size="10" fill="#94A3B8">Every segment boundary promotes to keyframe</text>
+
+  <rect x="440" y="484" width="276" height="36" rx="6" fill="#14100B" stroke="#334155"/>
+  <text x="452" y="506" class="font-mono" font-size="11" fill="#E2E8F0">events: ReplayEvent[] (validated monotonic)</text>
+
+  <!-- ===================================================================== -->
+  <!-- CROSS-ZONE ARROW 2 -> 3                                               -->
+  <!-- ===================================================================== -->
+  <path d="M 730 447 L 764 447 L 764 295 L 800 295" fill="none" stroke="#34D399" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+
+  <!-- ===================================================================== -->
+  <!-- ZONE 3: PLAYBACK ENGINE & HOST UI (x=788, w=384)                      -->
+  <!-- ===================================================================== -->
+  <rect x="788" y="88" width="384" height="464" rx="12" fill="#0F172A" fill-opacity="0.88" stroke="#134E4A" stroke-width="1.5"/>
+  <rect x="804" y="102" width="10" height="10" rx="2" fill="#34D399"/>
+  <text x="822" y="112" class="font-sans" font-size="13" font-weight="700" letter-spacing="0.4" fill="#34D399">3. REPLAY ENGINE &amp; HOST UI</text>
+
+  <!-- Host Playback UI (Top) -->
+  <rect x="804" y="128" width="352" height="72" rx="10" fill="#0E2421" stroke="#10B981" stroke-opacity="0.6" stroke-width="1"/>
+  <text x="818" y="149" class="font-sans" font-size="13" font-weight="700" fill="#F8FAFC">Host Playback UI</text>
+  <text x="1142" y="149" text-anchor="end" class="font-mono" font-size="10" fill="#6EE7B7">useSyncExternalStore</text>
+  <text x="818" y="168" class="font-sans" font-size="11" fill="#CBD5E1">Scrubber · Step(+1/-1) · Speed · Skip Idle Badge · Diag Markers</text>
+  <text x="818" y="186" class="font-mono" font-size="10" fill="#94A3B8">seek({ time | seq | step | eventId | edge })</text>
+
+  <!-- Arrow: Controller -> Host UI -->
+  <line x1="980" y1="232" x2="980" y2="203" stroke="#34D399" stroke-width="1.6" marker-end="url(#arrowEmerald)"/>
+  <text x="990" y="222" class="font-mono" font-size="10" fill="#6EE7B7">immutable ReplaySnapshot</text>
+
+  <!-- ReplayController Box (Middle) -->
+  <rect x="804" y="234" width="352" height="132" rx="10" fill="#0E2421" stroke="#34D399" stroke-width="1.5"/>
+  <text x="818" y="256" class="font-mono" font-size="14" font-weight="700" fill="#F8FAFC">ReplayController</text>
+  <text x="1142" y="256" text-anchor="end" class="font-mono" font-size="10" fill="#34D399">controller.ts</text>
+
+  <rect x="818" y="268" width="156" height="40" rx="6" fill="#081715" stroke="#1E293B"/>
+  <text x="896" y="285" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">State Machine</text>
+  <text x="896" y="300" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">idle|ready|playing|ended</text>
+
+  <rect x="984" y="268" width="158" height="40" rx="6" fill="#081715" stroke="#1E293B"/>
+  <text x="1063" y="285" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">TimeWarp O(log n)</text>
+  <text x="1063" y="300" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">rawPos &lt;-&gt; warpedPos</text>
+
+  <rect x="818" y="314" width="156" height="40" rx="6" fill="#081715" stroke="#1E293B"/>
+  <text x="896" y="331" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Seek O(log K + &#916;)</text>
+  <text x="896" y="346" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">nearest keyframe &lt;= seq</text>
+
+  <rect x="984" y="314" width="158" height="40" rx="6" fill="#081715" stroke="#1E293B"/>
+  <text x="1063" y="331" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#CBD5E1">Format Guard</text>
+  <text x="1063" y="346" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">check format@version</text>
+
+  <!-- Arrow: Controller -> Adapters -->
+  <line x1="980" y1="366" x2="980" y2="396" stroke="#34D399" stroke-width="1.6" marker-end="url(#arrowEmerald)"/>
+  <text x="990" y="385" class="font-mono" font-size="10" fill="#6EE7B7">reset / restore / applyBatch / onSeekPhase</text>
+
+  <!-- IReplayChannel Adapters (Bottom) -->
+  <rect x="804" y="400" width="352" height="132" rx="10" fill="#0E2421" stroke="#10B981" stroke-opacity="0.65" stroke-width="1"/>
+  <text x="818" y="422" class="font-mono" font-size="13" font-weight="700" fill="#F8FAFC">IReplayChannel&lt;T&gt; Adapters</text>
+  <text x="1142" y="422" text-anchor="end" class="font-mono" font-size="10" fill="#34D399">channel.ts</text>
+
+  <rect x="818" y="434" width="104" height="54" rx="6" fill="#081715" stroke="#34D399" stroke-opacity="0.45"/>
+  <text x="870" y="454" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#6EE7B7">Agent Adapter</text>
+  <text x="870" y="470" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">Stream + Tools</text>
+  <text x="870" y="482" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">0 network</text>
+
+  <rect x="928" y="434" width="110" height="54" rx="6" fill="#081715" stroke="#34D399" stroke-opacity="0.45"/>
+  <text x="983" y="454" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#6EE7B7">CRDT Adapter</text>
+  <text x="983" y="470" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">Shadow -&gt; Live</text>
+  <text x="983" y="482" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">observeDeep safe</text>
+
+  <rect x="1044" y="434" width="98" height="54" rx="6" fill="#081715" stroke="#34D399" stroke-opacity="0.45"/>
+  <text x="1093" y="454" text-anchor="middle" class="font-sans" font-size="11" font-weight="600" fill="#6EE7B7">Diag Adapter</text>
+  <text x="1093" y="470" text-anchor="middle" class="font-sans" font-size="10" fill="#94A3B8">Logs &amp; Metrics</text>
+  <text x="1093" y="482" text-anchor="middle" class="font-mono" font-size="9" fill="#64748B">read-only</text>
+
+  <text x="980" y="514" text-anchor="middle" class="font-sans" font-size="11" fill="#94A3B8">Drives real read-only host views (no synthetic mock UI required)</text>
+
+  <!-- ===================================================================== -->
+  <!-- BOTTOM INVARIANTS STRIP                                               -->
+  <!-- ===================================================================== -->
+  <rect x="28" y="572" width="268" height="40" rx="8" fill="#111827" stroke="#1E293B"/>
+  <text x="162" y="597" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#E2E8F0">0 Runtime Dependencies</text>
+
+  <rect x="318" y="572" width="278" height="40" rx="8" fill="#111827" stroke="#1E293B"/>
+  <text x="457" y="597" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#7DD3FC">Payload-Blind (format@version)</text>
+
+  <rect x="618" y="572" width="262" height="40" rx="8" fill="#111827" stroke="#1E293B"/>
+  <text x="749" y="597" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#FDE68A">Segments = Seek Keyframes</text>
+
+  <rect x="902" y="572" width="270" height="40" rx="8" fill="#111827" stroke="#1E293B"/>
+  <text x="1037" y="597" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#6EE7B7">Browser · Worker · Node · Bun</text>
+</svg>

@@ -1,5 +1,10 @@
 # replay-kit
 
+![version](https://img.shields.io/badge/version-v0.1.0-blue)
+![dependencies](https://img.shields.io/badge/dependencies-0-emerald)
+![typescript](https://img.shields.io/badge/TypeScript-strict-3178C6)
+![protocol](https://img.shields.io/badge/protocol-v1-amber)
+
 Framework-agnostic, zero-dependency record & replay engine for collaborative workspaces, AI agents, and structured telemetry streams.
 
 See [PROTOCOL.md](./PROTOCOL.md) for the v1 bundle, JSONL wire format, segmentation, adapter, and recorder specification.
@@ -17,6 +22,8 @@ See [PROTOCOL.md](./PROTOCOL.md) for the v1 bundle, JSONL wire format, segmentat
 ---
 
 ## Architecture Overview
+
+![replay-kit System Architecture](./docs/architecture.svg)
 
 ```mermaid
 flowchart LR
@@ -90,6 +97,38 @@ Long sessions often include multi-second waits (model warmups, cloud generation 
 - During a compressed interval, `snapshot.activeIdleGap` exposes `{ rawGapMs }` so the UI can show badges like `Skipping 35.0s idle`.
 
 ### 3. Fast Seeking (`O(log K + Δ)`) & Adapter Batching
+
+```mermaid
+flowchart LR
+  S0["Segment 0 (baseSeq: 0)<br/>initialState: T0 + events[0..499]"] -->|"joinSegments()"| JB["Unified ReplayBundle"]
+  S1["Segment 1 (baseSeq: 500)<br/>initialState: KF@499 + events[500..999]"] -->|"joinSegments()"| JB
+  S2["Segment 2 (baseSeq: 1000)<br/>initialState: KF@999 + events[1000..end]"] -->|"joinSegments()"| JB
+  JB -->|"Seek(targetSeq=720)"| KF["Jump to nearest keyframe <= 720 (seq 499)"]
+  KF -->|"Apply delta (500..720)"| END["onSeekPhase('end') -> Render UI"]
+```
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant Host as Host Runtime / UI
+  participant Rec as ReplayRecorder
+  participant Sink as ISegmentSink
+  participant Ctrl as ReplayController
+  participant Ch as IReplayChannel
+
+  Host->>Host: Apply live mutation
+  Host->>Rec: record({ ch, k, step, corr, data })
+  Rec->>Rec: Segment threshold hit -> capture()
+  Rec->>Sink: write(segment, { index, sealed, final })
+  Note over Host,Ctrl: Later: Replay Session
+  Host->>Ctrl: registerChannel(Ch) & load(joinSegments(...))
+  Ctrl->>Ch: reset(initialState)
+  Host->>Ctrl: seek({ time }) / play()
+  Ctrl->>Ch: onSeekPhase('start')
+  Ctrl->>Ch: restore(nearestKeyframeState)
+  Ctrl->>Ch: applyBatch(deltaEvents)
+  Ctrl->>Ch: onSeekPhase('end')
+```
 
 - Supports 5 seek targets: `{ time }`, `{ seq }`, `{ step }`, `{ eventId }`, and `{ edge: 'start' | 'end' }`.
 - Forward seeks within the same segment apply `(currentSeq + 1 .. targetSeq)` incrementally with zero reset overhead.
