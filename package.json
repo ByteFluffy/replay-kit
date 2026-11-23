@@ -1,0 +1,11 @@
+{
+  "name": "replay-kit",
+  "private": true,
+  "description": "Framework-agnostic record & replay toolkit for workspace + agent sessions.",
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test"
+  }
+}

@@ -1,0 +1,4 @@
+{"type":"header","v":1,"id":"conformance:segmented:1","host":"demo-workspace","channels":{"doc":{"format":"kv@1"},"diag":{"format":"diag@1"}},"originMs":0,"segment":{"index":0,"baseSeq":0},"initialState":{"doc":{},"diag":null}}
+{"t":100,"ch":"doc","k":"put","step":true,"data":{"k":"a","v":1}}
+{"t":300,"ch":"doc","k":"put","data":{"k":"b","v":2}}
+{"t":500,"ch":"diag","k":"note","data":{"code":"ok"}}

@@ -1,0 +1,6 @@
+{"type":"header","v":1,"id":"conformance:multi-idle:1","host":"demo-workspace","title":"Multi-Channel Idle","channels":{"agent":{"format":"msg@1"},"doc":{"format":"patch@1"},"diag":{"format":"diag@1"}},"playback":{"maxIdleGapMs":1000,"compressedGapMs":500},"initialState":{"agent":[],"doc":{},"diag":null}}
+{"t":0,"ch":"agent","k":"prompt","step":true,"data":{"text":"Create scene"}}
+{"t":400,"ch":"agent","k":"tool_call","step":true,"corr":"c1","data":{"tool":"gen"}}
+{"t":20400,"ch":"doc","k":"set","step":true,"corr":"c1","id":"doc_set_1","data":{"key":"bg","value":"sky"}}
+{"t":20900,"ch":"diag","k":"render.slow","sev":"warn","corr":"c1","data":{"durationMs":1200}}
+{"t":21100,"ch":"doc","k":"set","step":true,"data":{"key":"fg","value":"hero"}}

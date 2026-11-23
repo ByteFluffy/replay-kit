@@ -1,0 +1,6 @@
+{"type":"header","v":1,"id":"conformance:minimal-chat:1","host":"demo-chat","title":"Minimal Chat","channels":{"agent":{"format":"chat-msg@1"}},"initialState":{"agent":{"messages":[]}}}
+{"t":0,"ch":"agent","k":"message","step":true,"data":{"role":"user","text":"Why does scrub lag?"}}
+{"t":500,"ch":"agent","k":"reasoning","data":{"text":"Checking keyframe index and decoder reuse..."}}
+{"t":2800,"ch":"agent","k":"tool_call","step":true,"corr":"tc_1","id":"ev_call_1","data":{"name":"search","q":"scrub stall"}}
+{"t":5900,"ch":"agent","k":"tool_result","step":true,"corr":"tc_1","data":{"ok":true}}
+{"t":6200,"ch":"agent","k":"message","step":true,"data":{"role":"assistant","text":"Use keyframe baselines and throttle scrub."}}

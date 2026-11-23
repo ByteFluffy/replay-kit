@@ -1,0 +1,3 @@
+{"type":"header","v":1,"id":"conformance:segmented:1","host":"demo-workspace","channels":{"doc":{"format":"kv@1"},"diag":{"format":"diag@1"}},"originMs":500,"segment":{"index":1,"baseSeq":3,"final":true},"initialState":{"doc":{"a":1,"b":2},"diag":null}}
+{"t":700,"ch":"doc","k":"put","step":true,"data":{"k":"a","v":10}}
+{"t":900,"ch":"doc","k":"del","step":true,"data":{"k":"b"}}
