@@ -13,7 +13,7 @@ See [PROTOCOL.md](./PROTOCOL.md) for the v1 bundle, JSONL wire format, segmentat
 
 ## Design Philosophy & Core Invariants
 
-1. **Payload-blind core**: `@replay-kit/core` never interprets channel payloads. Events carry opaque JSON-serializable `data` routed by `ch` to host-implemented channel adapters, checked only against a declared versioned format (`format@version`).
+1. **Payload-blind core**: `replay-kit-core` never interprets channel payloads. Events carry opaque JSON-serializable `data` routed by `ch` to host-implemented channel adapters, checked only against a declared versioned format (`format@version`).
 2. **Zero runtime dependencies & zero environment assumptions**: Written in pure TypeScript with no DOM, Node, or bundler-specific runtime imports. It runs identically in browsers, workers, SSR, Node, and Bun.
 3. **Segments = keyframes**: Rather than maintaining a separate checkpoint policy, every rotated segment captures a full `initialState` baseline via host `captures[ch]()`. Joining segments turns each boundary into an O(log K) seek keyframe with no bespoke snapshot format.
 4. **Mutate-then-record contract**: Hosts apply mutations to their own state first, then call `recorder.record(...)`. Whenever a segment boundary rotates immediately afterward, `capture()` reflects the post-event state deterministically.
@@ -167,7 +167,7 @@ import {
   ReplayController,
   ReplayRecorder,
   type IReplayChannel,
-} from '@replay-kit/core';
+} from 'replay-kit-core';
 
 let count = 0;
 
@@ -212,7 +212,7 @@ controller.play();
 ### Step 1: Implement Channel Adapters (`IReplayChannel`)
 
 ```ts
-import type { IReplayChannel, ReplayEvent } from '@replay-kit/core';
+import type { IReplayChannel, ReplayEvent } from 'replay-kit-core';
 
 export class DiagChannelAdapter implements IReplayChannel<null> {
   readonly channel = 'diag';
@@ -240,7 +240,7 @@ export class DiagChannelAdapter implements IReplayChannel<null> {
 ### Step 2: Implement an Idempotent `ISegmentSink`
 
 ```ts
-import { encodeJsonl, type ISegmentSink, type ReplayBundle, type SegmentWriteInfo } from '@replay-kit/core';
+import { encodeJsonl, type ISegmentSink, type ReplayBundle, type SegmentWriteInfo } from 'replay-kit-core';
 
 export class HttpSegmentSink implements ISegmentSink {
   async write(segment: ReplayBundle, info: SegmentWriteInfo): Promise<void> {
@@ -319,7 +319,7 @@ await recorder.stop();
 ### Step 4: Load, Join & Playback
 
 ```ts
-import { ReplayController, decodeJsonl, joinSegments } from '@replay-kit/core';
+import { ReplayController, decodeJsonl, joinSegments } from 'replay-kit-core';
 
 const segmentTexts: Array<{ text: string; sealed: boolean }> = await fetchSegments();
 const segments = segmentTexts.map(({ text, sealed }) =>

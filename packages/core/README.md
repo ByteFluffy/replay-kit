@@ -1,4 +1,4 @@
-# `@replay-kit/core`
+# `replay-kit-core`
 
 Framework-agnostic, zero-dependency record & replay engine for collaborative workspaces, AI agents, and structured diagnostics.
 
@@ -8,7 +8,7 @@ Framework-agnostic, zero-dependency record & replay engine for collaborative wor
 ## Installation
 
 ```bash
-pnpm add https://github.com/ByteFluffy/replay-kit/releases/download/v0.1.0/replay-kit-core-0.1.0.tgz
+pnpm add replay-kit-core
 ```
 
 ## Exported Surface
@@ -28,7 +28,7 @@ import {
   encodeJsonl,
   joinSegments,
   type IReplayChannel,
-} from '@replay-kit/core';
+} from 'replay-kit-core';
 
 let state = 0;
 

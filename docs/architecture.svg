@@ -37,7 +37,7 @@
   <text x="36" y="42" class="font-sans" font-size="22" font-weight="700" fill="#F8FAFC">replay-kit · System Architecture (Protocol v1)</text>
   <text x="36" y="64" class="font-sans" font-size="13" fill="#94A3B8">Framework-agnostic, zero-dependency record &amp; replay engine for workspaces, AI agents, and structured telemetry</text>
   <rect x="1032" y="24" width="136" height="28" rx="14" fill="#0F2942" stroke="#38BDF8" stroke-width="1"/>
-  <text x="1100" y="42" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#7DD3FC">@replay-kit/core</text>
+  <text x="1100" y="42" text-anchor="middle" class="font-mono" font-size="12" font-weight="600" fill="#7DD3FC">replay-kit-core</text>
 
   <!-- ===================================================================== -->
   <!-- ZONE 1: HOST RECORDING SIDE (x=28, w=340)                              -->

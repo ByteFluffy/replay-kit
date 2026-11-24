@@ -1,5 +1,5 @@
 {
-  "name": "@replay-kit/core",
+  "name": "replay-kit-core",
   "version": "0.1.0",
   "description": "Zero-dependency replay engine: protocol, time warp, controller, recorder.",
   "type": "module",

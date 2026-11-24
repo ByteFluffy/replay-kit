@@ -4,7 +4,7 @@
 
 1. **The engine is payload-blind.** Events carry opaque `data` routed to host-implemented channel adapters. Channels declare a versioned `format` string (e.g. `kv@1`), and adapters declare which `formats` they accept.
 2. **Segments are keyframes.** Long sessions are split into self-contained segments. Each segment starts with a full `initialState` baseline captured from all stateful channels, making every segment independently playable and giving `O(log K + Δ)` seek latency when joined.
-3. **Host owns I/O and UI.** `@replay-kit/core` has zero runtime dependencies and no DOM/Node assumptions. Fetching, uploading, storage, and rendering belong to the host.
+3. **Host owns I/O and UI.** `replay-kit-core` has zero runtime dependencies and no DOM/Node assumptions. Fetching, uploading, storage, and rendering belong to the host.
 
 ## 2. Data Model
 
